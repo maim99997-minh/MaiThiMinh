@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Student
+{
+    public class StudentService
+    {
+        private List<Student> students;
+
+        public StudentService()
+        {
+            // Khoi tao danh sach
+            students = new List<Student>
+            {
+                new Student { Id = 1, Name = "An", Age = 16 },
+                new Student { Id = 2, Name = "Binh", Age = 18 },
+                new Student { Id = 3, Name = "Anh", Age = 15 },
+                new Student { Id = 4, Name = "Minh", Age = 20 },
+                new Student { Id = 5, Name = "Dung", Age = 17 }
+            };
+        }
+
+        // a In danh sach hoc sinh
+        public void PrintAllStudents()
+        {
+            Console.WriteLine("Danh sach hoc sinh:");
+            students.ForEach(s => Console.WriteLine(s));
+        }
+
+        // b Tim hoc sinh tu 15 den 18 tuoi
+        public void PrintStudentsByAgeRange(int min, int max)
+        {
+            Console.WriteLine($"\nHoc sinh tu {min} đen {max} tuoi:");
+            var result = students.Where(s => s.Age >= min && s.Age <= max);
+            foreach (var s in result)
+                Console.WriteLine(s);
+        }
+
+        // c Tim hoc sinh ten bat dau bang "A"
+        public void PrintStudentsStartWithA()
+        {
+            Console.WriteLine("\nHoc sinh co ten bat dau bang 'A':");
+            var result = students.Where(s => s.Name.StartsWith("A"));
+            foreach (var s in result)
+                Console.WriteLine(s);
+        }
+
+        // d. Tinh tong tuoi
+        public void PrintTotalAge()
+        {
+            int totalAge = students.Sum(s => s.Age);
+            Console.WriteLine($"\nTong tuoi cua tat ca hoc sinh: {totalAge}");
+        }
+
+        // e Hoc sinh co tuoi lon nhat
+        public void PrintOldestStudent()
+        {
+            int maxAge = students.Max(s => s.Age);
+            var result = students.Where(s => s.Age == maxAge);
+            Console.WriteLine("\nHoc sinh co tuoi lon nhat:");
+            foreach (var s in result)
+                Console.WriteLine(s);
+        }
+
+        // f Sap xep tuoi tang dan
+        public void PrintSortedByAge()
+        {
+            Console.WriteLine("\nDanh sach hoc sinh theo tuoi tang dan:");
+            var sorted = students.OrderBy(s => s.Age);
+            foreach (var s in sorted)
+                Console.WriteLine(s);
+        }
+    }
+}
