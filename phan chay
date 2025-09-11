@@ -1,0 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Student
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            StudentService service = new StudentService();
+
+            service.PrintAllStudents();
+            service.PrintStudentsByAgeRange(15, 18);
+            service.PrintStudentsStartWithA();
+            service.PrintTotalAge();
+            service.PrintOldestStudent();
+            service.PrintSortedByAge();
+
+            Console.ReadLine();
+        }
+    }
+}
