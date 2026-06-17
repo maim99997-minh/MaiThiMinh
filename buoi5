@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace b5moi
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            // Khởi tạo danh sách font hệ thống cho toolStripComboBox1
+            InstalledFontCollection fonts = new InstalledFontCollection();
+            toolStripComboBox1.Items.Clear();
+            foreach (FontFamily font in fonts.Families)
+            {
+                toolStripComboBox1.Items.Add(font.Name);
+            }
+            toolStripComboBox1.SelectedItem = "Tahoma"; // Giá trị mặc định
+
+            // Khởi tạo danh sách size cho toolStripComboBox2
+            int[] sizes = { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+            toolStripComboBox2.Items.Clear();
+            foreach (int size in sizes)
+            {
+                toolStripComboBox2.Items.Add(size.ToString());
+            }
+            toolStripComboBox2.SelectedItem = "14"; // Giá trị mặc định
+
+        }
+
+        private void toolStripComboBox1_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionFont = new Font(toolStripComboBox1.SelectedItem.ToString(), (float)toolStripComboBox2.SelectedItem);
+
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
+            toolStripComboBox1.SelectedItem = "Tahoma";
+            toolStripComboBox2.SelectedItem = 14;
+            richTextBox1.Font = new Font("Tahoma", 14);
+
+        }
+
+        private void moTapTinToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDlg = new OpenFileDialog();
+            openDlg.Filter = "Text Files (*.txt)|*.txt|Rich Text Files (*.rtf)|*.rtf|All Files (*.*)|*.*";
+            if (openDlg.ShowDialog() == DialogResult.OK)
+            {
+                if (openDlg.FileName.EndsWith(".rtf"))
+                    richTextBox1.LoadFile(openDlg.FileName, RichTextBoxStreamType.RichText);
+                else
+                    richTextBox1.LoadFile(openDlg.FileName, RichTextBoxStreamType.PlainText);
+            }
+
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.Filter = "Rich Text Files (*.rtf)|*.rtf|Text Files (*.txt)|*.txt";
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+            {
+                if (saveDlg.FileName.EndsWith(".rtf"))
+                    richTextBox1.SaveFile(saveDlg.FileName, RichTextBoxStreamType.RichText);
+                else
+                    richTextBox1.SaveFile(saveDlg.FileName, RichTextBoxStreamType.PlainText);
+                MessageBox.Show("Lưu thành công!", "Thông báo");
+            }
+            }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            Font currentFont = richTextBox1.SelectionFont;
+            FontStyle newStyle = currentFont.Style ^ FontStyle.Bold;
+            richTextBox1.SelectionFont = new Font(currentFont, newStyle);
+
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            Font currentFont = richTextBox1.SelectionFont;
+            FontStyle newStyle = currentFont.Style ^ FontStyle.Italic;
+            richTextBox1.SelectionFont = new Font(currentFont, newStyle);
+
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            Font currentFont = richTextBox1.SelectionFont;
+            FontStyle newStyle = currentFont.Style ^ FontStyle.Underline;
+            richTextBox1.SelectionFont = new Font(currentFont, newStyle);
+
+        }
+
+        private void toolStripComboBox2_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionFont = new Font(toolStripComboBox1.SelectedItem.ToString(), (float)toolStripComboBox2.SelectedItem);
+
+        }
+    }
+}
