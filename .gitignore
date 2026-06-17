@@ -1,0 +1,23 @@
+## Ignore Visual Studio temporary files and build outputs
+.vs/
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore zip files (like backup LTWeb.zip)
+*.zip
+LTWeb.zip
+d:/DALTWeb (2)/DALTWeb/DALTWeb/LTWeb.zip
+
+## Ignore publishing outputs
+publish/
+**/PublishOutput/
+
+## Ignore system and IDE files
+.DS_Store
+Thumbs.db
