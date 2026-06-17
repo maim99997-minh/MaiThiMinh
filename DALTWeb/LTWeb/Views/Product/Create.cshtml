@@ -1,0 +1,79 @@
+﻿@model LTWeb.Models.SeafoodItem
+
+@{
+    ViewData["Title"] = "Thêm sản phẩm mới";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 text-center">NHẬP THÔNG TIN HẢI SẢN MỚI</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Mã định danh (ID)</label>
+                                <input asp-for="Id" class="form-control" placeholder="Ví dụ: cua-ca-mau" required />
+                                <span asp-validation-for="Id" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Tên sản phẩm</label>
+                                <input asp-for="Name" class="form-control" placeholder="Tên hiển thị trên menu..." required />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Danh mục</label>
+                                <select asp-for="Category" class="form-select">
+                                    <option value="CÁ">CÁ</option>
+                                    <option value="CUA - GHẸ">CUA - GHẸ</option>
+                                    <option value="BÀO NGƯ - HÀU">BÀO NGƯ - HÀU</option>
+                                    <option value="ĐẶC BIỆT">ĐẶC BIỆT</option>
+                                    <option value="CÁC LOẠI HẢI SẢN KHÁC">HẢI SẢN KHÁC</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Giá bán (VNĐ)</label>
+                                <input asp-for="Price" type="number" class="form-control" placeholder="Ví dụ: 250000" required />
+                                <span asp-validation-for="Price" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Trọng lượng/Size</label>
+                                <input asp-for="Weight" class="form-control" placeholder="Ví dụ: 500g - 1kg/con" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Xuất xứ</label>
+                                <input asp-for="Origin" class="form-control" placeholder="Ví dụ: Phan Thiết" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Link ảnh sản phẩm</label>
+                            <input asp-for="Image" class="form-control" placeholder="https://..." />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mô tả sản phẩm</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Thông tin chi tiết về độ tươi sống, cách chế biến..."></textarea>
+                        </div>
+
+                        <div class="d-flex gap-2 pt-3">
+                            <button type="submit" class="btn btn-success px-5 fw-bold">LƯU VÀO HỆ THỐNG</button>
+                            <a asp-controller="Home" asp-action="Menu" class="btn btn-outline-secondary px-4">HỦY BỎ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

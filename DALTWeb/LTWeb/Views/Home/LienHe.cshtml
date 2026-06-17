@@ -1,0 +1,107 @@
+﻿@model IEnumerable<LTWeb.Models.ContactMessage> // Giả sử Model lưu contact của bạn tên là ContactMessage
+
+@{
+    ViewData["Title"] = "Liên hệ";
+}
+
+<div class="menu-header-banner">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0 text-white text-uppercase">Liên hệ</h1>
+        <nav class="breadcrumb-custom">
+            <a asp-controller="Home" asp-action="Index">Trang chủ</a> / <span class="text-white">Liên hệ</span>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-md-5">
+            <h2 class="h4 fw-bold mb-3">Liên hệ</h2>
+            <p class="mb-4">🐙 <strong>Seafood – MANG CẢ BIỂN KHƠI VỀ NƠI THÀNH PHỐ</strong> 🌊</p>
+
+            <h5 class="fw-bold mb-3">HỆ THỐNG NHÀ HÀNG</h5>
+            <ul class="list-unstyled lh-lg">
+                <li>📌 <strong>Trung Tâm:</strong> 2-4-6 Hai Bà Trưng, Phường Bến Nghé, Quận 1, TP.HCM</li>
+                <li>📌 <strong>Cơ sở 1:</strong> 20 Hoàng Việt, Phường 4, Quận Tân Bình, TP.HCM</li>
+                <li>📌 <strong>Cơ sở 2:</strong> 195 Nam Kỳ Khởi Nghĩa, Võ Thị Sáu, Quận 3, TP.HCM</li>
+                <li>📌 <strong>Cơ sở 3:</strong> 163A Trần Não, Phường An Khánh, TP. Thủ Đức</li>
+                <li>☎️ <strong>Hotline đặt bàn:</strong> 0378095096 – 0949739037</li>
+            </ul>
+
+            <div class="mt-4">
+                <a href="#" class="btn btn-primary btn-sm rounded-circle me-2"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="btn btn-dark btn-sm rounded-circle"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+
+            <form asp-action="SendContact" method="post">
+                <div class="mb-3">
+                    <input type="text" name="Name" class="form-control" placeholder="Họ và Tên" required style="border-radius: 0; background-color: #f0f4f8;">
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <input type="email" name="Email" class="form-control" placeholder="Email" required style="border-radius: 0; background-color: #f0f4f8;">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="tel" name="Phone" class="form-control" placeholder="Số điện thoại" required style="border-radius: 0; background-color: #f0f4f8;">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <textarea name="Message" class="form-control" rows="6" placeholder="Nội dung" style="border-radius: 0; background-color: #f0f4f8;"></textarea>
+                </div>
+                <button type="submit" class="btn text-white px-5 fw-bold" style="background-color: #002244; border-radius: 0;">GỬI</button>
+            </form>
+        </div>
+    </div>
+
+    @* PHẦN HIỂN THỊ DÀNH CHO ADMIN *@
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <div class="row mt-5">
+            <div class="col-12">
+                <hr />
+                <h3 class="h4 fw-bold mb-4 text-uppercase" style="color: #002244;">Danh sách khách hàng đã gửi thông tin</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle border">
+                        <thead style="background-color: #002244; color: white;">
+                            <tr>
+                                <th>Ngày gửi</th>
+                                <th>Họ Tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Nội dung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@DateTime.Now.ToString("dd/MM/yyyy")</td> @* Giả sử lấy ngày hiện tại *@
+                                        <td>@item.Name</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Phone</td>
+                                        <td>@item.Message</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">Chưa có phản hồi nào.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

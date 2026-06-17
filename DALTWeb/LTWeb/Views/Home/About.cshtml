@@ -1,0 +1,261 @@
+﻿@{
+    ViewData["Title"] = "Giới thiệu";
+}
+
+<style>
+    /* Section 1: Blue Banner */
+    .about-banner {
+        background-color: #001f3f;
+        color: #fff;
+        padding: 60px 0;
+        margin-top: -1rem;
+    }
+
+        .about-banner h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+    .breadcrumb-custom {
+        font-size: 0.9rem;
+        color: #ccc;
+    }
+
+        .breadcrumb-custom a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+    /* Section 2: Nội dung chính */
+    .about-content {
+        padding: 80px 0;
+        background-color: #fff;
+    }
+
+    .main-title {
+        color: #001f3f;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+        display: inline-block;
+    }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 3px;
+            background-color: #003366;
+        }
+
+    .seafood-text {
+        line-height: 1.8;
+        color: #555;
+        font-size: 1rem;
+    }
+
+    .branch-title {
+        color: #003366;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-top: 30px;
+        font-size: 1.1rem;
+    }
+
+    .branch-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 15px;
+    }
+
+        .branch-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.95rem;
+        }
+
+            .branch-list li::before {
+                content: '•';
+                position: absolute;
+                left: 0;
+                color: #003366;
+                font-weight: bold;
+            }
+
+    /* CSS CHO MẢNG TRẮNG CÓ HÌNH ẢNH */
+    .img-right-container {
+        position: relative;
+    }
+
+        .img-right-container img {
+            width: 100%;
+            height: 450px; /* Cố định chiều cao để lấp đầy mảng trắng tốt hơn */
+            object-fit: cover; /* Đảm bảo ảnh không bị méo */
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 10px solid #fff; /* Tạo viền trắng sang trọng quanh ảnh */
+        }
+
+    .img-badge {
+        position: absolute;
+        bottom: 20px;
+        right: -10px;
+        background: #003366;
+        color: #fff;
+        padding: 15px 25px;
+        border-radius: 4px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-hotline {
+        background-color: #001f3f;
+        color: #fff;
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 500;
+        border: none;
+        transition: all 0.3s ease;
+        margin-right: 15px;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+    }
+
+        .btn-hotline:hover {
+            background-color: #004080;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+</style>
+
+<section class="about-banner">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Giới thiệu</h1>
+            <div class="breadcrumb-custom">
+                <a asp-action="Index">Trang chủ</a> / <span>Giới thiệu</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-content">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-7 pe-lg-5 mb-5 mb-lg-0">
+                <h2 class="main-title">VỀ CHÚNG TÔI</h2>
+
+                <div class="seafood-text">
+                    <p><strong>Hệ thống Nhà hàng Seafood</strong> được thành lập từ năm 2023 với đội ngũ nhân sự chuyên nghiệp, chuyên phục vụ hải sản cao cấp, tươi sống loại 1. Được tuyển chọn trực tiếp tại các vùng biển lớn, món ăn được đầu bếp chuyên nghiệp chế biến tại chỗ. Mang đến trải nghiệm ẩm thực đậm vị biển giữa lòng thành phố.</p>
+                </div>
+
+                <h3 class="branch-title">HỆ THỐNG NHÀ HÀNG SEAFOOD:</h3>
+
+                <ul class="branch-list text-muted">
+                    <li><strong>Trung Tâm:</strong> 123 Lê Lợi, Phường Bến Thành, Quận 1, TP.HCM</li>
+                    <li><strong>Chi nhánh 1:</strong> 456 Võ Văn Kiệt, Quận 5, TP.HCM</li>
+                    <li><strong>Chi nhánh 2:</strong> 789 Phan Xích Long, Quận Phú Nhuận, TP.HCM</li>
+                    <li><strong>Chi nhánh 3:</strong> Coming Soon...</li>
+                </ul>
+
+                <div class="mt-5 d-flex flex-wrap">
+                    <a href="tel:0378095096" class="btn-hotline mb-2">
+                        <i class="fas fa-phone-alt me-2"></i> Hotline 0378095096
+                    </a>
+                    <a href="tel:0949739037" class="btn-hotline mb-2">
+                        <i class="fas fa-phone-alt me-2"></i> Hotline 0949739037
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5 img-right-container">
+                <img src="https://anfoodnhatrang.com/wp-content/uploads/2025/08/nha-hang-hai-san-nha-trang.jpg"
+                     alt="Hải sản tươi sống"
+                     onerror="this.src='https://anfoodnhatrang.com/wp-content/uploads/2025/08/nha-hang-hai-san-nha-trang.jpg';" />
+
+                <div class="img-badge d-none d-md-block">
+                    <h5 class="mb-0 fw-bold">Fresh Daily</h5>
+                    <small>Hải sản tươi mỗi ngày</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="set-menu-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="set-menu-header">SET MENU</h2>
+            <p class="text-muted mt-3">Ngoài hình thức gọi món, Seafood mang đến các gói tiệc đa dạng từ 400.000đ - 1.500.000đ/khách.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="menu-card">
+                    <span class="menu-price">370.000+ / PAX</span>
+                    <ul class="menu-items-list">
+                        <li>Gỏi ngó sen hải sản</li>
+                        <li>Nghêu vàng hấp thái</li>
+                        <li>Tôm sú nướng muối ớt</li>
+                        <li>Đậu hũ non chiên xù</li>
+                        <li>Hàu nướng phô mai</li>
+                        <li>Cá tầm lẩu ngót</li>
+                        <li>Trái cây</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="menu-card">
+                    <span class="menu-price">580.000+ / PAX</span>
+                    <ul class="menu-items-list">
+                        <li>Gỏi ngó sen hải sản</li>
+                        <li>Sò dương nướng phô mai</li>
+                        <li>Bạch tuộc chiên nước mắm</li>
+                        <li>Ốc hương nướng mọi</li>
+                        <li>Hàu nướng phô mai</li>
+                        <li>Cá mú trân châu lẩu chua</li>
+                        <li>Trái cây</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="menu-card">
+                    <span class="menu-price">755.000+ / PAX</span>
+                    <ul class="menu-items-list">
+                        <li>Salad rau trộn</li>
+                        <li>Ốc hương nướng mọi</li>
+                        <li>Sò mai nướng mỡ hành</li>
+                        <li>Mực lá hấp gừng</li>
+                        <li>Tôm càng xanh hấp dừa</li>
+                        <li>Cá mú sao xanh lẩu ngót</li>
+                        <li>Trái cây</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="menu-card">
+                    <span class="menu-price">1.450.000+ / PAX</span>
+                    <ul class="menu-items-list">
+                        <li>Gỏi ngó sen hải sản</li>
+                        <li>Bào ngư Hàn Quốc sốt nấm</li>
+                        <li>Cơm chiên hải sản</li>
+                        <li>Tôm mũ ni vàng sốt trứng</li>
+                        <li>Sò điệp Nhật nướng phô mai</li>
+                        <li>Cua Cà Mau khổng lồ hấp</li>
+                        <li>Trái cây</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

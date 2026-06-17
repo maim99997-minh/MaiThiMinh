@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Booking>
+
+@{
+    ViewData["Title"] = "Quản lý Đặt Bàn";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-uppercase" style="color: #002244;">Danh sách khách đặt bàn</h2>
+        <span class="badge bg-primary">Tổng cộng: @Model.Count()</span>
+    </div>
+
+    <div class="table-responsive shadow-sm">
+        <table class="table table-hover align-middle border">
+            <thead style="background-color: #002244; color: white;">
+                <tr>
+                    <th>Họ Tên</th>
+                    <th>Liên hệ</th>
+                    <th>Chi nhánh</th>
+                    <th>Thời gian đặt</th>
+                    <th>Ghi chú / Số người</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@item.CustomerName</td>
+                        <td>
+                            <div><i class="fas fa-phone-alt me-1 small"></i> @item.Phone</div>
+                            <div class="small text-muted">@item.Email</div>
+                        </td>
+                        <td><span class="badge bg-info text-dark">@item.Branch</span></td>
+                        <td>@item.BookingDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td style="max-width: 250px;">
+                            <div class="small text-truncate">@item.Note</div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

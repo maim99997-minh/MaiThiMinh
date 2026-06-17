@@ -1,0 +1,93 @@
+﻿@model LTWeb.Models.AccountViewModel
+@using LTWeb.Models
+@{
+    ViewData["Title"] = "Tài khoản";
+}
+
+<section class="py-4 border-top">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-4">TÀI KHOẢN</h2>
+
+        <div class="row">
+            @* --- CỘT ĐĂNG NHẬP --- *@
+            <div class="col-lg-6">
+                <h4 class="mb-3">ĐĂNG NHẬP</h4>
+
+                @if (TempData["RegisterSuccess"] != null)
+                {
+                    <div class="alert alert-success">@TempData["RegisterSuccess"]</div>
+                }
+
+                <form asp-action="Login" asp-controller="Account" method="post" class="mb-3">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label asp-for="Login.Username" class="form-label">Tên tài khoản hoặc địa chỉ email *</label>
+                        <input asp-for="Login.Username" class="form-control" />
+                        <span asp-validation-for="Login.Username" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Login.Password" class="form-label">Mật khẩu *</label>
+                        <input asp-for="Login.Password" type="password" class="form-control" />
+                        <span asp-validation-for="Login.Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="Login.RememberMe" class="form-check-input" />
+                        <label asp-for="Login.RememberMe" class="form-check-label">Ghi nhớ mật khẩu</label>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-dark px-4">Đăng nhập</button>
+                        <a asp-action="ForgotPassword" asp-controller="Account" class="d-block mt-2 small">Quên mật khẩu?</a>
+                    </div>
+
+                    @* Hiển thị lỗi tổng quát nếu đăng nhập sai *@
+                    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                </form>
+            </div>
+
+            @* --- CỘT ĐĂNG KÝ --- *@
+            <div class="col-lg-6 border-start">
+                <h4 class="mb-3 ps-4">ĐĂNG KÝ</h4>
+
+                <form asp-action="Register" asp-controller="Account" method="post" class="p-0 ps-4">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="Register.Email" class="form-label">Địa chỉ email *</label>
+                        <input asp-for="Register.Email" class="form-control" />
+                        <span asp-validation-for="Register.Email" class="text-danger small"></span>
+                    </div>
+
+                    @* Bổ sung ô nhập Mật khẩu cho Đăng ký *@
+                    <div class="mb-3">
+                        <label asp-for="Register.Password" class="form-label">Mật khẩu *</label>
+                        <input asp-for="Register.Password" type="password" class="form-control" />
+                        <span asp-validation-for="Register.Password" class="text-danger small"></span>
+                    </div>
+
+                    @* Bổ sung ô Xác nhận mật khẩu *@
+                    <div class="mb-3">
+                        <label asp-for="Register.ConfirmPassword" class="form-label">Xác nhận mật khẩu *</label>
+                        <input asp-for="Register.ConfirmPassword" type="password" class="form-control" />
+                        <span asp-validation-for="Register.ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+                    <p class="text-muted small">
+                        Dữ liệu cá nhân của bạn sẽ được sử dụng để hỗ trợ trải nghiệm và các mục đích khác được mô tả trong chính sách riêng tư.
+                    </p>
+
+                    <button type="submit" class="btn btn-dark">Đăng ký</button>
+
+                    @* Hiển thị các lỗi khác của Identity (ví dụ: Email đã tồn tại) *@
+                    <div asp-validation-summary="All" class="text-danger small mt-2"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

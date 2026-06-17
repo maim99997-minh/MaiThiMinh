@@ -1,0 +1,107 @@
+﻿@model IEnumerable<LTWeb.Models.SeafoodItem>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Thực đơn";
+}
+
+<div class="menu-header-banner">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0 text-white">Thực đơn</h1>
+        <nav class="breadcrumb-custom">
+            <a href="/" class="text-white text-decoration-none">Trang chủ</a> / <span class="text-white">Thực đơn</span>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <span class="text-muted small">Hiển thị @Model.Count() kết quả</span>
+
+        <div class="d-flex align-items-center gap-3">
+            @* LOGIC PHÂN QUYỀN *@
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <a asp-controller="Product" asp-action="Create" class="btn btn-danger btn-sm rounded-0">
+                    <i class="fas fa-plus-circle me-1"></i> THÊM SẢN PHẨM MỚI
+                </a>
+            }
+
+            <select class="form-select form-select-sm" style="width: auto; border-radius: 0;">
+                <option>Thứ tự mặc định</option>
+                <option>Giá thấp đến cao</option>
+                <option>Giá cao đến thấp</option>
+            </select>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card-custom shadow-sm h-100 bg-white">
+                        <a asp-controller="Menu" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                            <div class="product-image-box overflow-hidden">
+                                @* SỬA LỖI: ImageUrl -> Image *@
+                                <img src="@item.Image" class="w-100" style="height:220px; object-fit:cover;">
+                            </div>
+                            <div class="product-label-blue text-center p-2" style="background-color: #002d51;">
+                                <span class="category-tag text-white-50 small d-block">@item.Category</span>
+                                <h5 class="product-title-text text-white m-0 text-truncate">@item.Name.ToUpper()</h5>
+                                @* Bổ sung hiển thị giá *@
+                                <p class="text-warning fw-bold mb-0">@item.Price.ToString("N0") VNĐ</p>
+                            </div>
+                        </a>
+                        @* Nút thêm nhanh vào giỏ hàng *@
+                        <div class="p-2 border-top">
+                            <button class="btn btn-outline-danger btn-sm w-100 rounded-pill"
+                                    onclick="cartAction('add', '@item.Id', '@item.Name', '@item.Image', @item.Price, 1)">
+                                <i class="fas fa-shopping-cart me-1"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">Không có sản phẩm nào để hiển thị.</div>
+    }
+
+    @* Phân trang *@
+    <nav class="mt-5">
+        <ul class="pagination pagination-custom justify-content-center">
+            <li class="page-item active"><a class="page-link" asp-controller="Home" asp-action="Menu1">1</a></li>
+            <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Menu2">2</a></li>
+            <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Menu3">3</a></li>
+            <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Menu4">4</a></li>
+            <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Menu5">5</a></li>
+            <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Menu3"><i class="fas fa-chevron-right"></i></a></li>
+        </ul>
+    </nav>
+</div>
+
+<style>
+    .product-card-custom {
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+    }
+
+        .product-card-custom:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .product-image-box img {
+        transition: transform 0.5s ease;
+    }
+
+    .product-card-custom:hover img {
+        transform: scale(1.1);
+    }
+</style>

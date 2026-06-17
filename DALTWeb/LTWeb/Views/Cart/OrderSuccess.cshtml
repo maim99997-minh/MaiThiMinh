@@ -1,0 +1,47 @@
+﻿@model LTWeb.Models.OrderConfirmationViewModel
+
+<div class="container mt-5 mb-5 text-center">
+    <div class="alert alert-success">
+        <h2 class="display-4">🎉 Đặt hàng thành công!</h2>
+        <p>Cảm ơn <strong>@Model.CustomerName</strong> đã tin tưởng Nhà hàng Seafood.</p>
+        <p>Mã đơn hàng của bạn là: <strong>#@Model.OrderId</strong></p>
+    </div>
+
+    <div class="card mt-4 text-left">
+        <div class="card-header bg-dark text-white">
+            <h4>CHI TIẾT ĐƠN HÀNG</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th class="text-right">Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td class="text-right">@item.Price.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2">Tổng cộng:</th>
+                        <th class="text-right text-danger">@Model.TotalAmount.ToString("N0") đ</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-primary">Tiếp tục mua sắm</a>
+        <button onclick="window.print()" class="btn btn-secondary">In hóa đơn</button>
+    </div>
+</div>

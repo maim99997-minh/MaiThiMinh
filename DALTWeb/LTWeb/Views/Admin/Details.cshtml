@@ -1,0 +1,85 @@
+﻿@model LTWeb.Models.Order
+
+@{
+    ViewData["Title"] = "Chi tiết Đơn hàng #" + Model.OrderId;
+}
+
+<div class="container py-5">
+    <h2 class="text-primary mb-4">Chi tiết Đơn hàng #@Model.OrderId</h2>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white fw-bold">
+                    Thông tin giao hàng
+                </div>
+                <div class="card-body">
+                    <p><strong>Người nhận:</strong> @Model.LastName @Model.FirstName</p>
+                    <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    <div class="mb-3">
+                        <strong>Trạng thái:</strong>
+                        <span class="badge @(Model.Status == "Chờ duyệt" ? "bg-warning" : "bg-success") text-dark">
+                            @Model.Status
+                        </span>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <form asp-action="UpdateStatus" method="post" class="mt-2 d-flex gap-2">
+                                <input type="hidden" name="orderId" value="@Model.OrderId" />
+
+                                <select name="status" class="form-select form-select-sm" style="max-width: 200px;">
+                                    <option value="Chờ duyệt" selected="@(Model.Status == "Chờ duyệt")">Chờ duyệt</option>
+                                    <option value="Chờ lấy hàng" selected="@(Model.Status == "Chờ lấy hàng")">Chờ lấy hàng</option>
+                                    <option value="Thành công" selected="@(Model.Status == "Thành công")">Lấy hàng thành công</option>
+                                    <option value="Thất bại" selected="@(Model.Status == "Thất bại")">Lấy hàng thất bại</option>
+                                </select>
+
+                                <button type="submit" class="btn btn-primary btn-sm">Xác nhận</button>
+                            </form>
+                        }
+                    </div>
+                    <p><strong>Ghi chú:</strong> @Model.Note</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white fw-bold">
+                    Danh sách món ăn
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-end">Đơn giá</th>
+                                <th class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.OrderDetails)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.Image" width="50" height="50" style="object-fit:cover" class="rounded me-2" />
+                                        @item.ProductName
+                                    </td>
+                                    <td class="text-center align-middle">@item.Quantity</td>
+                                    <td class="text-end align-middle">@item.Price.ToString("N0") VNĐ</td>
+                                    <td class="text-end align-middle text-danger fw-bold">
+                                        @((item.Quantity * item.Price).ToString("N0")) VNĐ
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Quay lại danh sách</a>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<LTWeb.Models.Order>
+
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
+    Layout = "_Layout"; // Đảm bảo dùng chung Layout của hệ thống
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">Dòng thời gian Đơn hàng</h2>
+        <span class="badge bg-primary">Tổng số: @(Model?.Count() ?? 0) đơn</span>
+    </div>
+
+    <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th class="ps-4">Mã ĐH</th>
+                        <th>Email khách hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-secondary">#@item.OrderId</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-circle me-2 text-muted"></i>
+                                        @item.Email
+                                    </div>
+                                </td>
+                                <td>@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="fw-bold text-danger">@item.TotalAmount.ToString("N0") VNĐ</td>
+                                <td>
+                                    @* Logic hiển thị màu sắc theo trạng thái *@
+                                    <span class="badge rounded-pill @(item.Status == "Completed" ? "bg-success" : "bg-warning text-dark") shadow-sm px-3">
+                                        @(item.Status ?? "Chờ xử lý")
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a asp-action="Details" asp-controller="Admin" asp-route-id="@item.OrderId"
+                                       class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm">
+                                        <i class="fas fa-search me-1"></i> Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <img src="https://cdn-icons-png.flaticon.com/512/4076/4076432.png" width="80" class="mb-3 opacity-50" />
+                                <p class="text-muted">Hiện tại chưa có đơn hàng nào được đặt.</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Hiệu ứng hover nhẹ cho dòng trong bảng */
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.05);
+        transition: 0.3s;
+    }
+    /* Bo góc cho table */
+    .card {
+        border: none;
+    }
+</style>

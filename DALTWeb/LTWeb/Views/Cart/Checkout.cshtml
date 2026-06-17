@@ -1,0 +1,100 @@
+﻿@model IEnumerable<LTWeb.Models.CartItem>
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-center text-uppercase fw-bold">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Cart")" class="text-decoration-none text-dark">Giỏ hàng</a></li>
+            <li class="breadcrumb-item active text-danger">Chi tiết thanh toán</li>
+            <li class="breadcrumb-item disabled">Đơn hàng hoàn tất</li>
+        </ol>
+    </nav>
+
+    <form method="post" action="@Url.Action("ProcessCheckout", "Cart")">
+        <div class="row mt-4">
+            <div class="col-md-7">
+                <h4 class="fw-bold mb-4 border-bottom pb-2">THÔNG TIN THANH TOÁN</h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Tên <span class="text-danger">*</span></label>
+                        <input type="text" name="FirstName" class="form-control" placeholder="Nhập tên" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Họ <span class="text-danger">*</span></label>
+                        <input type="text" name="LastName" class="form-control" placeholder="Nhập họ" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
+                        <input type="text" name="Address" class="form-control" placeholder="Địa chỉ giao hàng" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="tel" name="PhoneNumber" class="form-control" placeholder="Nhập số điện thoại" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Địa chỉ email <span class="text-danger">*</span></label>
+                        <input type="email" name="Email" class="form-control" value="maim99997@gmail.com" required>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <h5 class="fw-bold">THÔNG TIN BỔ SUNG</h5>
+                        <label class="form-label">Ghi chú đơn hàng</label>
+                        <textarea name="Note" class="form-control" rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."></textarea>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="col-md-5">
+                <div class="card bg-light border-0 shadow-sm p-4">
+                    <h4 class="fw-bold mb-4 text-uppercase">Đơn hàng của bạn</h4>
+                    <table class="table table-borderless border-bottom">
+                        <thead>
+                            <tr class="text-secondary small border-bottom">
+                                <th>SẢN PHẨM</th>
+                                <th class="text-end">TẠM TÍNH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="py-3">
+                                            <span class="text-dark">@item.ProductName</span>
+                                            <strong class="ms-1 text-secondary small">× @item.Quantity</strong>
+                                        </td>
+                                        @* Sử dụng Price * Quantity nếu Total chưa được tính toán từ trước *@
+                                        <td class="text-end py-3 fw-semibold">
+                                            @((item.Price * item.Quantity).ToString("N0")) đ
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2" class="text-center py-4 text-muted">Giỏ hàng trống</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-between mt-3 fw-bold">
+                        <span class="fs-5">Tổng cộng</span>
+                        <span class="text-danger fs-4">
+                            @* Tính tổng an toàn với toán tử ? *@
+                            @(Model?.Sum(x => x.Price * x.Quantity).ToString("N0") ?? "0") đ
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 fw-bold py-3 mt-4 shadow-sm" @(Model == null || !Model.Any() ? "disabled" : "")>
+                        ĐẶT HÀNG
+                    </button>
+
+                    <p class="small text-muted mt-3 fst-italic">
+                        <i class="bi bi-shield-check"></i> Dữ liệu cá nhân của bạn sẽ được sử dụng để xử lý đơn hàng và hỗ trợ trải nghiệm của bạn tại website.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

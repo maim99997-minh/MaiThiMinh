@@ -1,0 +1,97 @@
+﻿@model LTWeb.Models.SeafoodItem
+
+<div class="container py-5">
+    <div class="row g-0 shadow-lg rounded overflow-hidden border">
+        <div class="col-md-6">
+            @* SỬA: Thay ImageUrl thành Image *@
+            <img src="@Model.Image" class="img-fluid w-100" alt="@Model.Name" style="object-fit: cover; height: 100%; min-height: 400px;" />
+        </div>
+
+        <div class="col-md-6 p-5 text-white d-flex flex-column justify-content-center" style="background-color: #002d51;">
+            <h2 class="fw-bold text-uppercase mb-3">@Model.Name</h2>
+            <hr class="bg-white opacity-50" />
+
+            <div class="summary-content fs-5">
+                <p class="mb-2"><strong class="text-warning">Giá bán:</strong> <span class="fw-bold">@Model.Price.ToString("N0") VNĐ</span></p>
+                <p class="mb-2"><strong class="text-warning">Xuất xứ:</strong> @Model.Origin</p>
+                <p class="mb-2"><strong class="text-warning">Trọng lượng:</strong> @Model.Weight</p>
+                <p class="mb-2"><strong>Cam kết:</strong> <span class="text-info">Hàng tươi sống chất lượng loại 1</span></p>
+
+                @* CHỈ GIỮ LẠI 1 KHỐI ACTION BOX DUY NHẤT DƯỚI ĐÂY *@
+                <div class="product-action-box mt-4 p-4 rounded border border-secondary" style="background: rgba(255,255,255,0.05);">
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        @* Các Input ẩn để gửi dữ liệu sản phẩm *@
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <input type="hidden" name="name" value="@Model.Name" />
+                        <input type="hidden" name="image" value="@Model.Image" />
+                        <input type="hidden" name="price" value="@Model.Price" />
+
+                        @* Phần chọn số lượng *@
+                        <div class="d-flex align-items-center mb-4">
+                            <span class="me-3 fw-bold text-white">Số lượng:</span>
+                            <div class="input-group" style="width: 140px;">
+                                <button type="button" class="btn btn-outline-light" onclick="var input = this.parentNode.querySelector('input'); if(input.value > 1) input.value--;">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" name="quantity" value="1" min="1" class="form-control text-center bg-transparent text-white border-light fw-bold" readonly />
+                                <button type="button" class="btn btn-outline-light" onclick="var input = this.parentNode.querySelector('input'); input.value++;">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            @* Nút Thêm vào giỏ *@
+                            <button type="submit" class="btn btn-danger flex-grow-1 fw-bold py-2">
+                                <i class="fas fa-cart-plus me-2"></i>THÊM VÀO GIỎ
+                            </button>
+
+                            @* Nút Mua ngay *@
+                            <button type="button" class="btn btn-primary flex-grow-1 fw-bold py-2" onclick="location.href='@Url.Action("Index", "Cart")'">
+                                MUA NGAY
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="alert alert-light text-dark mt-4 border-0 shadow-sm" style="background-color: rgba(255,255,255,0.9);">
+                    <p class="mb-0 text-center">Liên hệ Hotline: <strong class="fs-4 text-danger">0378095096</strong></p>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-top border-secondary d-flex justify-content-between align-items-center">
+                <small class="text-white-50">Danh mục: @Model.Category</small>
+
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <div class="d-flex gap-2">
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm fw-bold text-dark">
+                            <i class="fas fa-edit"></i> SỬA MÓN
+                        </a>
+                        <form asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" method="post"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa món này ?')">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-outline-danger btn-sm fw-bold">
+                                <i class="fas fa-trash"></i> XÓA
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* Phần mô tả *@
+    <div class="mt-5">
+        <ul class="nav nav-tabs border-bottom-0">
+            <li class="nav-item">
+                <span class="nav-link active fw-bold border-bottom border-dark text-dark" style="border-width: 3px !important; background: transparent;">MÔ TẢ SẢN PHẨM</span>
+            </li>
+        </ul>
+        <div class="p-4 border-top mt-1 bg-white shadow-sm rounded-bottom">
+            <div class="lh-lg detail-description">
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+    </div>
+</div>

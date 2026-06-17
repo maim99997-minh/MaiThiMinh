@@ -1,0 +1,70 @@
+﻿@model IEnumerable<LTWeb.Models.SeafoodItem>
+
+<div class="menu-header-banner">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0 text-white">Thực đơn</h1>
+        <nav class="breadcrumb-custom">
+            <a href="/" class="text-white-50 text-decoration-none">Trang chủ</a> / <span class="text-white">Thực đơn</span>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <span class="text-muted small">Hiển thị 1–12 của @Model.Count() kết quả</span>
+        <select class="form-select form-select-sm" style="width: auto;">
+            <option>Thứ tự mặc định</option>
+            <option>Giá thấp đến cao</option>
+            <option>Giá cao đến thấp</option>
+        </select>
+    </div>
+
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3">
+                    @* Thêm thẻ <a> để khi nhấn vào ảnh/tên sẽ dẫn đến trang chi tiết *@
+                    <a asp-controller="Menu" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                        <div class="product-card-custom h-100 shadow-sm">
+                            <div class="product-image-box">
+                                @* Sửa từ link Unsplash thành @item.Image từ Database *@
+                                <img src="@item.Image" alt="@item.Name" class="img-fluid" style="height: 200px; object-wrap: cover;">
+
+                                @* Thêm nút nhanh để thêm vào giỏ hàng *@
+                                <div class="quick-add-overlay">
+                                    <button class="btn btn-danger btn-sm rounded-pill"
+                                            onclick="event.preventDefault(); cartAction('add', '@item.Id', '@item.Name', '@item.Image', @item.Price, 1)">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="product-label-blue text-center p-2" style="background-color: #002d51;">
+                                <span class="category-tag text-white-50 d-block" style="font-size: 0.7rem;">@item.Category</span>
+                                <h5 class="product-title-text text-white mb-1" style="font-size: 0.9rem;">@item.Name.ToUpper()</h5>
+                                <p class="text-warning fw-bold mb-0">@item.Price.ToString("N0") đ</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p class="alert alert-info text-center">Hiện chưa có món ăn nào trong danh mục này.</p>
+            </div>
+        }
+    </div>
+
+    @* Phần phân trang giữ nguyên nhưng cần xử lý logic ở Controller *@
+    <nav class="mt-5">
+        <ul class="pagination pagination-custom justify-content-center">
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+        </ul>
+    </nav>
+</div>
